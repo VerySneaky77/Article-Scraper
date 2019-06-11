@@ -9,6 +9,6 @@ const CommentSchema = new Schema({
 });
 
 // Comment schema
-var Comment = mongoose.model("comment", CommentSchema);
+var Comment = mongoose.model("Comment", CommentSchema);
 
 module.exports = Comment;

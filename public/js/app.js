@@ -6,6 +6,7 @@ $.getJSON("/articles", function (data) {
   }
 });
 
+// Everything below here needs rework
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function () {
