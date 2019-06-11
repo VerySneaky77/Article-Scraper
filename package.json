@@ -1,7 +1,7 @@
 {
-  "name": "Article-Scraper",
+  "name": "article-scraper",
   "version": "1.0.0",
-  "description": "In this assignment, you'll create a web app that lets users view and leave comments on the latest news. But you're not going to actually write any articles; instead, you'll flex your Mongoose and Cheerio muscles to scrape news from another site.",
+  "description": "Scrape articles from the developer's chosen site and display them to a site visitor.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
