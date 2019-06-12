@@ -65,8 +65,4 @@ $(document).on("click", "#savenote", function () {
       // Empty the notes section
       $("#notes").empty();
     });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
 });
