@@ -2,7 +2,7 @@
 $.getJSON("/articles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+    $(".articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
   }
 });
 
@@ -43,7 +43,7 @@ $(document).on("click", "p", function () {
 });
 
 // When you click the savenote button
-$(document).on("click", "#savenote", function () {
+$(document).on("click", ".add-article", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 
