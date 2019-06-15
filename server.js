@@ -39,8 +39,48 @@ app.set("view engine", "handlebars");
 // Routes
 // ======
 
+// A GET route for scraping the Fox video games news website
+app.get("/scrape", function(req, res) {
+  axios.get("https://www.foxnews.com/category/tech/topics/video-games").then(function(response) {
+    // Load into cheerio
+    var $ = cheerio.load(response.data);
+
+    // Select article tags
+    $("article.article-list div.info").each(function(i, element) {
+      // Save an empty result object
+      var result = {};
+
+      // Add the text and href of every link
+      result.title = $(this)
+        .children("header.info-header")
+        .children("h4.title")
+        .children("a")
+        .text();
+      result.link = $(this)
+        .children("header.info-header")
+        .children("h4.title")
+        .children("a")
+        .attr("href");
+
+      // Create a new Article using the `result` object built from scraping
+      db.Article.create(result)
+        .then(function(dbArticle) {
+          // View the added result in the console
+          console.log(dbArticle);
+        })
+        .catch(function(err) {
+          // If an error occurred, log it
+          console.log(err);
+        });
+    });
+
+    // Send a message to the client
+    res.send("Scrape Complete");
+  });
+});
+
 // Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+app.get("/", function(req, res) {
     // Grab every document in the Articles collection
     db.Article.find({})
       .then(function(dbArticle) {
@@ -52,6 +92,20 @@ app.get("/articles", function(req, res) {
         res.json(err);
       });
   });
+
+// Route for getting saved Articles from the db
+app.get("/articles", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({ where: {reserveMe : true }})
+    .then(function(dbArticle) {
+      // Success
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // No-go
+      res.json(err);
+    });
+});
   
   // Route for grabbing a specific Article by id, populate it with it's comments
   app.get("/articles/:id", function(req, res) {
@@ -68,13 +122,12 @@ app.get("/articles", function(req, res) {
       });
   });
   
-  // Route for saving/updating an Article's associated Note
+  // Route for saving/updating an Article's associated Comment
   app.post("/articles/:id", function(req, res) {
-    // Create a new comment and pass the req.body to the entry
     db.Comment.create(req.body)
       .then(function(dbComment) {
         // Successful new comment, find and pair with appropriate article
-        return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbComment._id }, { new: true });
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
       })
       .then(function(dbArticle) {
         // Success

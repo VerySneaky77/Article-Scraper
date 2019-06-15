@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 
 // New schema constructor for comments
 const CommentSchema = new Schema({
+  title: String,
   body: String
 });
 

@@ -17,7 +17,7 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  save: {
+  reserveMe: {
     type: Boolean,
     required: true,
     default: false
