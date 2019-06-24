@@ -1,5 +1,11 @@
 // Articles JSON retrieval
 $.getJSON("/articles", function (data) {
+  if (data === []) {
+    // Display to scrape
+    $(".articles").append(
+      "<p>You'll need to scrape some articles first</p>"
+    )
+  }
   for (var i = 0; i < data.length; i++) {
     // Display
     $(".articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
@@ -45,14 +51,14 @@ $(document).on("click", ".add-article", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 
-  // Run a POST request to change the note, using what's entered in the inputs
+  // Run a POST request to change the comment, using what's entered in the inputs
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
     data: {
       // Value taken from title input
       title: $("#titleinput").val(),
-      // Value taken from note textarea
+      // Value taken from comment textarea
       body: $("#bodyinput").val()
     }
   })

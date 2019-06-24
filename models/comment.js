@@ -6,7 +6,11 @@ const Schema = mongoose.Schema;
 // New schema constructor for comments
 const CommentSchema = new Schema({
   title: String,
-  body: String
+  body: String,
+  article: {
+    type: Schema.Types.ObjectId,
+    ref: "article"
+  }
 });
 
 // Comment schema
